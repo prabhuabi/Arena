@@ -1,0 +1,173 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import SignIn from '@/components/auth/SignIn';
+import styles from '../arena.module.css';
+
+interface Game {
+    id: number;
+    buildName: string;
+    title: string;
+    description: string;
+    image: string[];
+    video: string | null;
+    details: string;
+    category: string[];
+    publisher: string;
+}
+
+export default function GameDetailPage() {
+    const { data: session, status } = useSession();
+    const params = useParams();
+    const router = useRouter();
+    const [game, setGame] = useState<Game | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    useEffect(() => {
+        const fetchGame = async () => {
+            try {
+                const res = await fetch(`/api/arena/games/${params?.id}`);
+                if (!res.ok) throw new Error('Game not found');
+                const data = await res.json();
+                setGame(data);
+            } catch (err) {
+                console.error(err);
+                setGame(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (params?.id) {
+            fetchGame();
+        }
+    }, [params?.id]);
+
+    if (status === 'loading' || loading) {
+        return (
+            <div className={styles.page}>
+                <header className={styles.pageHeader}>
+                    <h1 className={styles.pageTitle}>Loading Game</h1>
+                    {/* <button className={styles.backButton} onClick={() => router.push('/arena')}>
+                        ← Back
+                    </button> */}
+                </header>
+
+                <div className={styles.detailLayout}>
+                    <div className={styles.previewContainer}>
+                        <div className={styles.skeletonImage}></div>
+                        <div className={styles.previewDots}>
+                            {[...Array(4)].map((_, i) => (
+                                <span key={i} className={styles.dot} />
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className={styles.detailsSection}>
+                        <div className={styles.skeletonDetails}></div>
+                        <div className={styles.skeletonDetails}></div>
+                        <div className={styles.skeletonDetails}></div>
+
+                        <div className={styles.skeletonTitle} style={{ width: '30%' }}></div>
+                        <div className={styles.skeletonCategory}></div>
+                        <div className={styles.skeletonCategory}></div>
+                        <div className={styles.skeletonPlayButton}></div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    function handleOnClickPlay() {
+        router.push(`/arena/play-game?Id=${game?.id}&Name=${game?.buildName}`);
+    }
+
+    if (!session) return <SignIn />;
+    if (!game) return <div className={styles.page}>Game not found.</div>;
+
+    return (
+        <div className={styles.page}>
+            <header className={styles.pageHeader}>
+                <h1 className={styles.pageTitle}>{game.title} </h1>
+            </header>
+
+            <div className={styles.detailLayout}>
+                <div className={styles.previewContainer}>
+                    <div className={styles.previewMedia}>
+                        {activeIndex < game.image.length ? (
+                            <img
+                                src={game.image[activeIndex]}
+                                alt={`${game.title} preview ${activeIndex + 1}`}
+                                className={styles.previewImage}
+                            />
+                        ) : (
+                            <video
+                                src={game.video!}
+                                className={styles.previewVideo}
+                                autoPlay
+                                playsInline
+                                controls
+                            />
+                        )}
+                    </div>
+
+                    <div className={styles.previewDots}>
+                        {game.image.map((_, index) => (
+                            <span
+                                key={`img-${index}`}
+                                className={`${styles.dot} ${activeIndex === index ? styles.activeDot : ''}`}
+                                onClick={() => setActiveIndex(index)}
+                            />
+                        ))}
+                        {game.video && (
+                            <span
+                                key="video"
+                                className={`${styles.dot} ${activeIndex === game.image.length ? styles.activeDot : ''}`}
+                                onClick={() => setActiveIndex(game.image.length)}
+                            />
+                        )}
+                    </div>
+
+                    <div>
+                        <h2 className={styles.sectionHeader}>Description</h2>
+                        <p>{game.description}</p>
+                    </div>
+                </div>
+
+                <div className={styles.detailsSection}>
+
+                    <h2 className={styles.sectionHeader}>Details</h2>
+                    <p>{game.details}</p>
+
+                    <h2 className={styles.sectionHeader}>Category</h2>
+                    <ul className={styles.categoryList}>
+                        {game.category.map((cat, index) => (
+                            <li key={index} className={styles.categoryItem}>
+                                {cat}
+                            </li>
+                        ))}
+                    </ul>
+
+                    <div>
+                        <h2 className={styles.sectionHeader}>Publisher</h2>
+                        <p className={styles.publisher}>{game.publisher}</p>
+                    </div>
+
+                    <div>
+                        <h2 className={styles.sectionHeader}>Options</h2>
+                        <div className={styles.controlButtonGroup}>
+                            <button className={styles.playButton} onClick={() => handleOnClickPlay()}>Play ❌</button>
+                            <button className={styles.backButton} onClick={() => router.push('/arena')}>Back ⭕️</button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    );
+}
+
