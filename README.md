@@ -43,7 +43,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 To learn more about Next.js, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Azure](https://learn.microsoft.com/en-us/entra/identity/) - learn about Azure authentication.
 - [PlayFab Documentation](https://learn.microsoft.com/en-us/gaming/playfab/) - learn about playfab and playfab API.
 - [Unity Documentation](https://docs.unity3d.com/Manual/index.html) - learn about unity.
 - [Fusion 2 Documentation](https://doc.photonengine.com/fusion/current/fusion-intro) - learn about Fusion2 Multiplayer SDK for Unity.
