@@ -6,7 +6,7 @@ export async function GET(
     context: { params: { id: string } }
 ) {
     try {
-        const { id } = context.params;
+        const { id } = await context.params;
         const gameId = parseInt(id);
 
         if (isNaN(gameId)) {
