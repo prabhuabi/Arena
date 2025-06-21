@@ -1,3 +1,12 @@
+## About Arena
+Arena is a gaming platform that makes it easy and fun for office teams to play games together online.
+
+Combining robust backend services with engaging gameplay, Arena delivers a smooth, interactive experience directly in your browser.
+- Website & Authentication: Built with Next.js, featuring secure sign-in powered by NextAuth and Azure AD (via Azure Entra OpenID).
+- Player Progress & Leaderboards: Managed through PlayFab, tracking stats, achievements, leaderboards, and virtual currencies.
+- Game Experience: Developed in Unity WebGL, supporting both single-player and multiplayer game modes.
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
