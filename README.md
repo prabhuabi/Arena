@@ -5,13 +5,14 @@ Combining robust backend services with engaging gameplay, Arena delivers a smoot
 - Website & Authentication: Built with Next.js, featuring secure sign-in powered by NextAuth and Azure AD (via Azure Entra OpenID).
 - Player Progress & Leaderboards: Managed through PlayFab, tracking stats, achievements, leaderboards, and virtual currencies.
 - Game Experience: Developed in Unity WebGL, supporting both single-player and multiplayer game modes.
+- Real-Time Multiplayer: Enabled by Photon Fusion 2 for seamless multiplayer interactions.
 
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-First, setup database:
+First, setup the database:
 
 ```bash
 npx tsx lib/init-db.ts
@@ -35,9 +36,6 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
@@ -46,11 +44,27 @@ To learn more about Next.js, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [PlayFab Documentation](https://learn.microsoft.com/en-us/gaming/playfab/) - learn about playfab and playfab API.
+- [Unity Documentation](https://docs.unity3d.com/Manual/index.html) - learn about unity.
+- [Fusion 2 Documentation](https://doc.photonengine.com/fusion/current/fusion-intro) - learn about Fusion2 Multiplayer SDK for Unity.
+- [React Unity WebGL Documentation](https://react-unity-webgl.dev/docs/getting-started/installation/) - learn about unity and web integration.
+- [Three Js Documentation](https://threejs.org/manual/#en/creating-a-scene) - learn about three js.
 
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Screenshots
+
+![image](https://github.com/user-attachments/assets/c8d7ec0e-c67f-4a9b-ba82-b7c73934a8e5)
+![image](https://github.com/user-attachments/assets/a7202786-5262-4267-a1ed-8b2f2778980d)
+![image](https://github.com/user-attachments/assets/7c77d995-3960-45d0-ac10-fe2a784e57ba)
+![image](https://github.com/user-attachments/assets/cc9b159a-ead4-44c4-bef4-520078eb4514)
+![image](https://github.com/user-attachments/assets/5fdc2fa0-70c0-4d63-bafa-9b850a598cf1)
+![image](https://github.com/user-attachments/assets/087292dd-c786-49ad-b164-157e2d1ace73)
+![image](https://github.com/user-attachments/assets/8e731e1e-e22a-4b4a-9ef3-fd0858d72b62)
+
+
+
