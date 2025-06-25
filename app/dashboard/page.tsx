@@ -23,7 +23,6 @@ import {
     Legend,
     ArcElement,
 } from 'chart.js';
-import { string } from 'three/tsl';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 

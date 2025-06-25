@@ -1,5 +1,5 @@
 :root {
-    --card-bg: #1d1d25;
+    --card-bg: #0000006c;
     --primary-color: #fcfcfc;
     --text-color: #cfd8dc;
     --accent-color: #ffffff71;
@@ -88,9 +88,9 @@
     background: var(--card-bg);
     border-radius: 12px;
     padding: 1.5rem 2rem;
-    box-shadow:
-        0 0 5px rgba(251, 253, 253, 0.15),
-        inset 0 0 5px rgba(0, 229, 255, 0.1);
+    /* box-shadow:
+        0 0 5px rgb(255, 110, 110),
+        inset 0 0 5px rgb(255, 142, 89); */
     width: 100%;
     max-width: 400px;
     margin-bottom: 2rem;
@@ -99,12 +99,11 @@
 
 .card:hover {
     transition: all .3s ease;
-    background: linear-gradient(#242242, #1e2225);
+    background: linear-gradient(#3d3d3db9, #27272760);
     box-shadow:
-        0 0 5px rgba(251, 253, 253, 0.15),
-        inset 0 0 15px rgba(0, 229, 255, 0.1);
+        0 0 5px rgba(98, 171, 255, 0.15),
+        inset 0 0 15px rgba(19, 121, 255, 0.1);
 }
-
 
 
 .cardTitle {

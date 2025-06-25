@@ -56,7 +56,7 @@ export default function Publish() {
         formData.append('categories', categories);
         formData.append('description', description);
         formData.append('details', details);
-        formData.append('publisher', session?.user?.name || "magician");
+        formData.append('publisher', session?.user?.email || "magician");
         formData.append('hasStreamingAssets', hasStreamingAssets ? 'true' : 'false');
 
         if (gameImages) {

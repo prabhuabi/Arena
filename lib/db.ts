@@ -157,3 +157,12 @@ export async function getGameById(id: number): Promise<Game | null> {
         publisher: game.publisher,
     };
 }
+
+export async function deleteGameById(id: number) {
+    const db = await getDb();
+
+    await db.run('PRAGMA foreign_keys = ON');
+
+    await db.run(`DELETE FROM games WHERE id = ?`, [id]);
+    await db.close();
+}

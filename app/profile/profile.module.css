@@ -105,6 +105,13 @@
     }
 }
 
+.addFriendsContainer {
+    animation: fadeIn 0.4s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
 .AddFriends {
     display: flex;
     flex-direction: row;
@@ -241,4 +248,72 @@
     color: #bfbfbf;
     margin-right: 8px;
     white-space: nowrap;
+}
+
+.myGamesContainer {
+    animation: fadeIn 0.4s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.gamesTable {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 0.9rem;
+}
+
+.gamesTable th,
+.gamesTable td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #333;
+}
+
+.gamesTable th {
+    background-color: #2c2c2e;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.gamesTable td {
+    color: #bbbbbb;
+}
+
+.gamesTable tr:hover {
+    background-color: #2e2e30;
+}
+
+.viewButton {
+    background-color: #3b82f6;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.viewButton:hover {
+    background-color: #2563eb;
+}
+
+.deleteButton {
+    margin-left: 0.5rem;
+    padding: 6px 12px;
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background-color 0.2s;
+}
+
+.deleteButton:hover {
+    background-color: #dc2626;
 }
