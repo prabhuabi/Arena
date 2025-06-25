@@ -76,10 +76,9 @@ export default function Arena() {
             <div className={styles.page}>
                 <h1 className={styles.pageTitle}>Arena</h1>
                 <div className={styles.gamesList}>
-                    {[...Array(5)].map((_, i) => (
+                    {[...Array(1)].map((_, i) => (
                         <div key={i} className={styles.skeletonCard}>
                             <div className={styles.skeletonTitle}></div>
-                            <div className={styles.skeletonDescription}></div>
                             <div className={styles.skeletonImage}></div>
                         </div>
                     ))}
@@ -104,29 +103,30 @@ export default function Arena() {
                             tabIndex={0}
                             role="button"
                             onClick={() => router.push(`/arena/${game.id}`)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                    router.push(`/arena/${game.id}`);
-                                }
-                            }}
                         >
-                            <h3 className={styles.gameTitle}>{game.title}</h3>
-                            <p className={styles.gameDescription}>{game.description}</p>
 
-                            <div className={styles.imageDots}>
-                                {images.map((_, index) => (
-                                    <span
-                                        key={index}
-                                        className={`${styles.dot} ${currentIndex === index ? styles.activeDot : ''
-                                            }`}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleDotClick(game.id, index);
-                                        }}
+                            <div key={game.id} className={styles.gameCard} onClick={() => router.push(`/arena/${game.id}`)} tabIndex={0}>
+                                <div className={styles.imageWrapper}>
+                                    <img
+                                        src={images[currentIndex]}
+                                        alt={`${game.title} preview`}
+                                        className={styles.gameImage}
                                     />
-                                ))}
+                                    <h3 className={styles.gameTitle}>{game.title}</h3>
+                                    <div className={styles.imageDots}>
+                                        {images.map((_, index) => (
+                                            <span
+                                                key={index}
+                                                className={`${styles.dot} ${currentIndex === index ? styles.activeDot : ''}`}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleDotClick(game.id, index);
+                                                }}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
-
                             <img
                                 src={images[currentIndex]}
                                 alt={`${game.title} preview`}

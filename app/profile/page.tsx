@@ -3,8 +3,9 @@
 import { useSession, signOut } from 'next-auth/react';
 import SignIn from '@/components/auth/SignIn';
 import styles from './profile.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { addFriend } from '@/lib/playfab/playfab';
+import { Game } from '@/lib/db';
 
 export default function Profile() {
     const { data: session, status } = useSession();
@@ -13,6 +14,8 @@ export default function Profile() {
     const [inputValue, setInputValue] = useState('');
     const [feedback, setFeedback] = useState('');
     const [showHelp, setShowHelp] = useState(false);
+    const [myGames, setMyGames] = useState<Game[]>([]);
+    const [gamesLoading, setGamesLoading] = useState(true);
 
     if (status === 'loading') {
         return <div className={styles.page}>Loading...</div>;
@@ -21,6 +24,38 @@ export default function Profile() {
     if (!session) {
         return <SignIn />;
     }
+
+    const fetchMyGames = async () => {
+        try {
+            const res = await fetch('/api/profile/my-games');
+            const data = await res.json();
+            setMyGames(data);
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setGamesLoading(false);
+        }
+    };
+
+    const handleDelete = async (id: number) => {
+        if (!confirm('Are you sure you want to delete this game?')) return;
+
+        try {
+            const res = await fetch(`/api/profile/my-games/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (res.ok) {
+                setMyGames((prev) => prev.filter((g) => g.id !== id));
+            } else {
+                alert('Failed to delete game.');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Error deleting game.');
+        }
+    };
+
 
     const handleAddFriend = async () => {
         const sessionTicket = sessionStorage.getItem('playfabSessionTicket');
@@ -53,6 +88,10 @@ export default function Profile() {
         }
     };
 
+    useEffect(() => {
+        fetchMyGames();
+    }, []);
+
     return (
         <div className={styles.page}>
             <header className={styles.pageHeader}>
@@ -82,7 +121,7 @@ export default function Profile() {
                 </div>
             </div>
 
-            <div>
+            <div className={styles.addFriendsContainer}>
                 <h1>Add Friends</h1>
                 <br />
                 <br />
@@ -144,6 +183,53 @@ export default function Profile() {
 
                 {feedback && <p style={{ marginTop: '1rem', color: '#3b82f6' }}>{feedback}</p>}
             </div>
+
+            <div className={styles.myGamesContainer}>
+                <h1>My Publishings</h1>
+                <br />
+
+                {gamesLoading ? (
+                    <p>Loading...</p>
+                ) : myGames.length === 0 ? (
+                    <p>You haven't published any games yet.</p>
+                ) : (
+                    <table className={styles.gamesTable}>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {myGames.map((game) => (
+                                <tr key={game.id}>
+                                    <td>{game.title}</td>
+                                    <td>{game.description?.slice(0, 90)}...</td>
+                                    <td>
+                                        <button
+                                            onClick={() => window.location.href = `/arena/${game.id}`}
+                                            className={styles.viewButton}
+                                        >
+                                            View
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(game.id!)}
+                                            className={styles.deleteButton}
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
+
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+            </div>
+            <br />
+            <br />
+
         </div>
     );
 }
