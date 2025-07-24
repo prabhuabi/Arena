@@ -3,7 +3,6 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import styles from './page.module.css';
 import SignIn from '@/components/auth/SignIn';
 
 export default function Home() {
@@ -17,12 +16,20 @@ export default function Home() {
   }, [status, session, router]);
 
   if (status === 'loading') {
-    return <div className={styles.page}>Loading...</div>;
+    return (
+      <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen gap-16 px-8 sm:px-20 py-20">
+        Loading...
+      </div>
+    );
   }
 
   if (!session) {
     return <SignIn />;
   }
 
-  return <div className={styles.page}>Redirecting...</div>;
+  return (
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen gap-16 px-8 sm:px-20 py-20">
+      Redirecting...
+    </div>
+  );
 }

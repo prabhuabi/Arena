@@ -5,6 +5,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import SignIn from '@/components/auth/SignIn';
 import styles from '../arena.module.css';
+import { usePlayTimeSession } from '@/context/PlayTimeContext';
+import Popup from '@/components/popup/Popup'; 
 
 interface Game {
     id: number;
@@ -20,11 +22,14 @@ interface Game {
 
 export default function GameDetailPage() {
     const { data: session, status } = useSession();
+    const { isExpired } = usePlayTimeSession();
+
     const params = useParams();
     const router = useRouter();
     const [game, setGame] = useState<Game | null>(null);
     const [loading, setLoading] = useState(true);
     const [activeIndex, setActiveIndex] = useState(0);
+    const [popup, setPopup] = useState(false);
 
     useEffect(() => {
         const fetchGame = async () => {
@@ -51,37 +56,17 @@ export default function GameDetailPage() {
             <div className={styles.page}>
                 <header className={styles.pageHeader}>
                     <h1 className={styles.pageTitle}>Loading Game</h1>
-                    {/* <button className={styles.backButton} onClick={() => router.push('/arena')}>
-                        ← Back
-                    </button> */}
                 </header>
-
-                <div className={styles.detailLayout}>
-                    <div className={styles.previewContainer}>
-                        <div className={styles.skeletonImage}></div>
-                        <div className={styles.previewDots}>
-                            {[...Array(4)].map((_, i) => (
-                                <span key={i} className={styles.dot} />
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className={styles.detailsSection}>
-                        <div className={styles.skeletonDetails}></div>
-                        <div className={styles.skeletonDetails}></div>
-                        <div className={styles.skeletonDetails}></div>
-
-                        <div className={styles.skeletonTitle} style={{ width: '30%' }}></div>
-                        <div className={styles.skeletonCategory}></div>
-                        <div className={styles.skeletonCategory}></div>
-                        <div className={styles.skeletonPlayButton}></div>
-                    </div>
-                </div>
+                {/* ...loading skeleton UI... */}
             </div>
         );
     }
 
     function handleOnClickPlay() {
+        if (isExpired) {
+            setPopup(true);
+            return;
+        }
         router.push(`/arena/play-game?Id=${game?.id}&Name=${game?.buildName}`);
     }
 
@@ -90,8 +75,16 @@ export default function GameDetailPage() {
 
     return (
         <div className={styles.page}>
+            {popup && (
+                <Popup
+                    message="Your daily playtime has expired. Please come back tomorrow!"
+                    onClose={() => setPopup(false)}
+                    type="error"
+                />
+            )}
+
             <header className={styles.pageHeader}>
-                <h1 className={styles.pageTitle}>{game.title} </h1>
+                <h1 className={styles.pageTitle}>{game.title}</h1>
             </header>
 
             <div className={styles.detailLayout}>
@@ -138,7 +131,6 @@ export default function GameDetailPage() {
                 </div>
 
                 <div className={styles.detailsSection}>
-
                     <h2 className={styles.sectionHeader}>Details</h2>
                     <p>{game.details}</p>
 
@@ -159,15 +151,12 @@ export default function GameDetailPage() {
                     <div>
                         <h2 className={styles.sectionHeader}>Options</h2>
                         <div className={styles.controlButtonGroup}>
-                            <button className={styles.playButton} onClick={() => handleOnClickPlay()}>Play ❌</button>
+                            <button className={styles.playButton} onClick={handleOnClickPlay}>Play ❌</button>
                             <button className={styles.backButton} onClick={() => router.push('/arena')}>Back ⭕️</button>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
     );
 }
-

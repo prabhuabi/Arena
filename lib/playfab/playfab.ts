@@ -146,7 +146,7 @@ async function updateEmail(sessionTicket: string, titleId: string, newEmail: str
 
 
 
-async function updatePlayFabUserData(
+export async function updatePlayFabUserData(
     sessionTicket: string,
     titleId: string,
     data: Record<string, string>
@@ -490,6 +490,73 @@ async function AddVirtualCurrency(
         body: JSON.stringify({
             VirtualCurrency: currencyName,
             Amount: amount,
+        }),
+    });
+
+    return res.json();
+}
+
+
+export async function getCatalogItems(sessionTicket: string, titleId: string, catalogVersion = 'Main') {
+    const res = await fetch(`https://${titleId}.playfabapi.com/Client/GetCatalogItems`, {
+        method: 'POST',
+        headers: {
+            'X-Authorization': sessionTicket,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ CatalogVersion: catalogVersion }),
+    });
+
+    return res.json();
+}
+
+export async function getStoreItems(sessionTicket: string, titleId: string, storeId: string, catalogVersion = 'Main') {
+    const res = await fetch(`https://${titleId}.playfabapi.com/Client/GetStoreItems`, {
+        method: 'POST',
+        headers: {
+            'X-Authorization': sessionTicket,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ StoreId: storeId, CatalogVersion: catalogVersion }),
+    });
+
+    return res.json();
+}
+
+export async function purchaseStoreItem(sessionTicket: string, titleId: string, storeId: string, catalogVersion: string, itemId: string, price: number, currencyCode = 'AC') {
+    const res = await fetch(`https://${titleId}.playfabapi.com/Client/PurchaseItem`, {
+        method: 'POST',
+        headers: {
+            'X-Authorization': sessionTicket,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            StoreId: storeId,
+            CatalogVersion: catalogVersion,
+            ItemId: itemId,
+            Price: price,
+            VirtualCurrency: currencyCode,
+        }),
+    });
+
+    return res.json();
+}
+
+export async function useInventoryItem(
+    sessionTicket: string,
+    titleId: string,
+    itemInstanceId: string,
+    consumeCount: number = 1
+) {
+    const res = await fetch(`https://${titleId}.playfabapi.com/Client/ConsumeItem`, {
+        method: 'POST',
+        headers: {
+            'X-Authorization': sessionTicket,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            ItemInstanceId: itemInstanceId,
+            ConsumeCount: consumeCount,
         }),
     });
 
