@@ -258,7 +258,7 @@
 }
 
 .gamesTable {
-    width: 100%;
+    width: max-content;
     border-collapse: collapse;
     background-color: #1e1e1e;
     border-radius: 8px;

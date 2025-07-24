@@ -5,6 +5,9 @@ import SessionProvider from "../components/auth/SessionProvider";
 import { authOptions } from '../pages/api/auth/[...nextauth]';
 import { getServerSession } from "next-auth";
 import SideBar from "../components/sidebar/SideBar";
+import { PlayTimeProvider } from "../context/PlayTimeContext";
+import PlayTimer from "@/components/timer/PlayTimer";
+import { UnitySessionProvider } from "@/context/UnitySessionContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,19 +29,24 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   const session = await getServerSession(authOptions);
 
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <SessionProvider session={session}>
-          <div style={{ display: 'flex', minHeight: '100vh' }}>
-            <SideBar />
-            <main style={{ flex: 1, paddingLeft: '5rem' }}>
-              {children}
-            </main>
-          </div>
+          <UnitySessionProvider>
+            <PlayTimeProvider>
+              <PlayTimer />
+              <div style={{ display: 'flex', minHeight: '100vh' }}>
+                <SideBar />
+                <main style={{ flex: 1, paddingLeft: '5rem' }}>
+                  {children}
+                </main>
+              </div>
+            </PlayTimeProvider>
+          </UnitySessionProvider>
+
         </SessionProvider>
       </body>
     </html>

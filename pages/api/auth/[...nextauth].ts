@@ -9,11 +9,10 @@ export const authOptions: NextAuthOptions = {
             tenantId: process.env.AZURE_AD_TENANT_ID!,
             authorization: {
                 params: {
-                    scope: "openid profile email User.Read",
+                    scope: "openid profile email offline_access User.Read Mail.Send",
                 },
-            }
-        })
-
+            },
+        }),
     ],
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
