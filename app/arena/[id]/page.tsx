@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 import SignIn from '@/components/auth/SignIn';
 import styles from '../arena.module.css';
 import { usePlayTimeSession } from '@/context/PlayTimeContext';
-import Popup from '@/components/popup/Popup'; // Adjust path if needed
+import Popup from '@/components/popup/Popup'; 
 
 interface Game {
     id: number;
